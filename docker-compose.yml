@@ -1,0 +1,19 @@
+version: '2'
+services:
+  static:
+    image: nginx:1.11
+    volumes:
+      - ./app/static:/etc/nginx/html:ro
+      - ./app/cfg/nginx.conf:/etc/nginx/nginx.conf
+      - ./app/cfg/localhost.conf:/etc/nginx/sites-enabled/localhost.conf
+    ports:
+      - "80:80"
+    restart: always
+  node:
+    image: node:6
+    volumes:
+      - ./app/server:/opt/server
+    entrypoint:
+      - node
+      - /opt/server/init.js
+    restart: always
